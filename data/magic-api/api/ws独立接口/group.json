@@ -1,0 +1,14 @@
+{
+  "properties" : { },
+  "id" : "3d73e9ac40514a28b2e4511c59d208d9",
+  "name" : "ws独立接口",
+  "type" : "api",
+  "parentId" : "0",
+  "path" : "/ws",
+  "createTime" : 1728556796242,
+  "updateTime" : null,
+  "createBy" : "admin",
+  "updateBy" : null,
+  "paths" : [ ],
+  "options" : [ ]
+}
