@@ -12,22 +12,23 @@
 
 	<groupId>org.ssssssss</groupId>
 	<artifactId>magic-boot</artifactId>
-	<version>0.0.2</version>
+	<version>0.1.2</version>
 	<name>magic-boot</name>
 	<description>magic-boot</description>
 	<properties>
 		<java.version>17</java.version>
-		<magic-api.version>2.1.1</magic-api.version>
-		<druid.version>1.2.20</druid.version>
-		<hutool-all.version>5.8.15</hutool-all.version>
-		<sa-token.version>1.35.0.RC</sa-token.version>
+		<spring-boot.version>3.1.2</spring-boot.version>
+		<magic-api.version>3.33.33</magic-api.version>
+		<druid.version>1.2.23</druid.version>
+		<hutool-all.version>5.8.22</hutool-all.version>
+		<sa-token.version>1.37.0</sa-token.version>
 		<poi.version>4.1.2</poi.version>
 		<netty.version>4.1.111.Final</netty.version>
 		<jakarta-websocket-api.version>2.0.0</jakarta-websocket-api.version>
 		<mysql.connector.version>8.0.32</mysql.connector.version>
-		<aliyun-core.version>4.6.0</aliyun-core.version>
-		<maven.compiler.source>21</maven.compiler.source>
-		<maven.compiler.target>21</maven.compiler.target>
+		<aliyun-core.version>4.7.0</aliyun-core.version>
+		<maven.compiler.source>17</maven.compiler.source>
+		<maven.compiler.target>17</maven.compiler.target>
 		<adbc.version>0.14.0</adbc.version>
 	</properties>
 	<dependencies>
@@ -55,16 +56,6 @@
 			</exclusions>
 		</dependency>
 
-<!--		<dependency>-->
-<!--			<groupId>org.springframework.boot</groupId>-->
-<!--			<artifactId>spring-boot-starter-web</artifactId>-->
-<!--			<exclusions>-->
-<!--				<exclusion>-->
-<!--					<artifactId>spring-boot-starter-tomcat</artifactId>-->
-<!--					<groupId>org.springframework.boot</groupId>-->
-<!--				</exclusion>-->
-<!--			</exclusions>-->
-<!--		</dependency>-->
 		<dependency>
 			<groupId>com.mysql</groupId>
 			<artifactId>mysql-connector-j</artifactId>
@@ -118,21 +109,17 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
+<!--		<dependency>-->
+<!--			<groupId>org.ssssssss</groupId>-->
+<!--			<artifactId>magic-api-plugin-task</artifactId>-->
+<!--			<version>${magic-api.version}</version>-->
+<!--		</dependency>-->
+<!--		<dependency>-->
+<!--			<groupId>org.ssssssss</groupId>-->
+<!--			<artifactId>magic-spring-boot-protocol</artifactId>-->
+<!--			<version>${magic-api.version}</version>-->
+<!--		</dependency>-->
 		<!--引入Netty-->
-<!--		<dependency>-->
-<!--			<groupId>org.springframework.boot</groupId>-->
-<!--			<artifactId>spring-boot-starter-webflux</artifactId>-->
-<!--		</dependency>-->
-		<!--引入Undertow-->
-<!--		<dependency>-->
-<!--			<groupId>org.springframework.boot</groupId>-->
-<!--			<artifactId>spring-boot-starter-undertow</artifactId>-->
-<!--		</dependency>-->
-		<dependency>
-			<groupId>com.github.wangzihaogithub</groupId>
-			<artifactId>spring-boot-protocol</artifactId>
-			<version>3.33.33</version>
-		</dependency>
 		<dependency>
 			<artifactId>netty-all</artifactId>
 			<groupId>io.netty</groupId>
@@ -143,11 +130,54 @@
 			<artifactId>jakarta.websocket-api</artifactId>
 			<version>${jakarta-websocket-api.version}</version>
 		</dependency>
+		<!--require redis-->
 <!--		<dependency>-->
 <!--			<groupId>org.ssssssss</groupId>-->
-<!--			<artifactId>magic-api-plugin-task</artifactId>-->
+<!--			<artifactId>magic-api-plugin-cluster</artifactId>-->
 <!--			<version>${magic-api.version}</version>-->
 <!--		</dependency>-->
+<!--		<dependency>-->
+<!--			<groupId>org.ssssssss</groupId>-->
+<!--			<artifactId>magic-api-plugin-redis</artifactId>-->
+<!--			<version>${magic-api.version}</version>-->
+<!--		</dependency>-->
+<!--		<dependency>-->
+<!--			<groupId>org.ssssssss</groupId>-->
+<!--			<artifactId>magic-api-plugin-elasticsearch</artifactId>-->
+<!--			<version>${magic-api.version}</version>-->
+<!--		</dependency>-->
+
+<!--		<dependency>-->
+<!--			<groupId>com.alibaba.cloud</groupId>-->
+<!--			<artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>-->
+<!--			<version>2022.0.0.0</version>-->
+<!--		</dependency>-->
+<!--		<dependency>-->
+<!--			<groupId>com.alibaba.cloud</groupId>-->
+<!--			<artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>-->
+<!--			<version>2022.0.0.0</version>-->
+<!--		</dependency>-->
+<!--		<dependency>-->
+<!--			<groupId>com.alibaba.boot</groupId>-->
+<!--			<artifactId>nacos-config-spring-boot-starter</artifactId>-->
+<!--			<version>0.3.0-RC</version>-->
+<!--		</dependency>-->
+<!--		<dependency>-->
+<!--			<groupId>com.alibaba.boot</groupId>-->
+<!--			<artifactId>nacos-discovery-spring-boot-starter</artifactId>-->
+<!--			<version>0.3.0-RC</version>-->
+<!--		</dependency>-->
+		<dependency>
+			<groupId>com.alibaba.nacos</groupId>
+			<artifactId>nacos-spring-context</artifactId>
+			<version>1.1.1</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.skywalking</groupId>
+			<artifactId>apm-toolkit-logback-1.x</artifactId>
+			<version>8.13.0</version>
+		</dependency>
 		<dependency>
 			<groupId>org.apache.poi</groupId>
 			<artifactId>poi-ooxml</artifactId>
@@ -171,7 +201,24 @@
 					<mainClass>org.ssssssss.magicboot.MagicBootApplication</mainClass>
 				</configuration>
 			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.11.0</version>
+				<configuration>
+					<compilerArgs>
+						<arg>-parameters</arg>
+					</compilerArgs>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
+	<repositories>
+		<repository>
+			<id>maven_central</id>
+			<name>Maven Central</name>
+			<url>https://repo.maven.apache.org/maven2/</url>
+		</repository>
+	</repositories>
 
 </project>
