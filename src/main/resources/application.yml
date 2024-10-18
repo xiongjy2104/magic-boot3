@@ -24,6 +24,7 @@ spring:
 #  cloud:
 #    nacos:
 #      discovery:
+#        autoRegister: true #可以让nacos自动注册
 #        username: ${spring.cloud.nacos.config.username}
 #        password: ${spring.cloud.nacos.config.password}
 #        server-addr: ${spring.cloud.nacos.config.server-addr}
