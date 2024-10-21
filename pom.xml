@@ -45,19 +45,32 @@
 			<artifactId>magic-api-spring-boot-starter</artifactId>
 			<version>${magic-api.version}</version>
 			<exclusions>
-<!--				<exclusion>-->
-<!--					<artifactId>spring-boot-starter-websocket</artifactId>-->
-<!--					<groupId>org.springframework.boot</groupId>-->
-<!--				</exclusion>-->
-				<exclusion>
-					<artifactId>jakarta.servlet-api</artifactId>
-					<groupId>jakarta.servlet</groupId>
-				</exclusion>
 				<exclusion>
 					<artifactId>spring-websocket</artifactId>
 					<groupId>org.springframework</groupId>
 				</exclusion>
 			</exclusions>
+		</dependency>
+		<!--引入Netty-->
+		<dependency>
+			<artifactId>netty-all</artifactId>
+			<groupId>io.netty</groupId>
+			<version>${netty.version}</version>
+		</dependency>
+		<dependency>
+			<artifactId>spring-websocket</artifactId>
+			<groupId>org.springframework</groupId>
+			<version>6.0.11</version>
+		</dependency>
+		<dependency>
+			<groupId>jakarta.websocket</groupId>
+			<artifactId>jakarta.websocket-client-api</artifactId>
+			<version>${jakarta-websocket-api.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>jakarta.websocket</groupId>
+			<artifactId>jakarta.websocket-api</artifactId>
+			<version>${jakarta-websocket-api.version}</version>
 		</dependency>
 
 		<dependency>
@@ -96,6 +109,7 @@
 			<artifactId>adbc-driver-flight-sql</artifactId>
 			<version>${adbc.version}</version>
 		</dependency>
+
 		<dependency>
 			<groupId>cn.hutool</groupId>
 			<artifactId>hutool-all</artifactId>
@@ -114,35 +128,9 @@
 			</exclusions>
 		</dependency>
 
-		<!--引入Netty-->
-		<dependency>
-			<artifactId>netty-all</artifactId>
-			<groupId>io.netty</groupId>
-			<version>${netty.version}</version>
-		</dependency>
-		<dependency>
-			<artifactId>spring-websocket</artifactId>
-			<groupId>org.springframework</groupId>
-			<version>6.0.11</version>
-		</dependency>
-		<dependency>
-			<groupId>jakarta.websocket</groupId>
-			<artifactId>jakarta.websocket-client-api</artifactId>
-			<version>${jakarta-websocket-api.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>jakarta.websocket</groupId>
-			<artifactId>jakarta.websocket-api</artifactId>
-			<version>${jakarta-websocket-api.version}</version>
-		</dependency>
 <!--		<dependency>-->
 <!--			<groupId>org.ssssssss</groupId>-->
 <!--			<artifactId>magic-api-plugin-task</artifactId>-->
-<!--			<version>${magic-api.version}</version>-->
-<!--		</dependency>-->
-<!--		<dependency>-->
-<!--			<groupId>org.ssssssss</groupId>-->
-<!--			<artifactId>magic-spring-boot-protocol</artifactId>-->
 <!--			<version>${magic-api.version}</version>-->
 <!--		</dependency>-->
 		<!--require redis-->
