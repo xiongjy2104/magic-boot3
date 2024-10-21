@@ -24,7 +24,7 @@
 		<sa-token.version>1.37.0</sa-token.version>
 		<poi.version>4.1.2</poi.version>
 		<netty.version>4.1.111.Final</netty.version>
-		<jakarta-websocket-api.version>2.0.0</jakarta-websocket-api.version>
+		<jakarta-websocket-api.version>2.1.1</jakarta-websocket-api.version>
 		<mysql.connector.version>8.0.32</mysql.connector.version>
 		<aliyun-core.version>4.7.0</aliyun-core.version>
 		<maven.compiler.source>17</maven.compiler.source>
@@ -46,13 +46,17 @@
 			<version>${magic-api.version}</version>
 			<exclusions>
 <!--				<exclusion>-->
-<!--					<artifactId>spring-websocket</artifactId>-->
-<!--					<groupId>org.springframework</groupId>-->
-<!--				</exclusion>-->
-<!--				<exclusion>-->
 <!--					<artifactId>spring-boot-starter-websocket</artifactId>-->
 <!--					<groupId>org.springframework.boot</groupId>-->
 <!--				</exclusion>-->
+				<exclusion>
+					<artifactId>jakarta.servlet-api</artifactId>
+					<groupId>jakarta.servlet</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>spring-websocket</artifactId>
+					<groupId>org.springframework</groupId>
+				</exclusion>
 			</exclusions>
 		</dependency>
 
@@ -109,6 +113,28 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
+
+		<!--引入Netty-->
+		<dependency>
+			<artifactId>netty-all</artifactId>
+			<groupId>io.netty</groupId>
+			<version>${netty.version}</version>
+		</dependency>
+		<dependency>
+			<artifactId>spring-websocket</artifactId>
+			<groupId>org.springframework</groupId>
+			<version>6.0.11</version>
+		</dependency>
+		<dependency>
+			<groupId>jakarta.websocket</groupId>
+			<artifactId>jakarta.websocket-client-api</artifactId>
+			<version>${jakarta-websocket-api.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>jakarta.websocket</groupId>
+			<artifactId>jakarta.websocket-api</artifactId>
+			<version>${jakarta-websocket-api.version}</version>
+		</dependency>
 <!--		<dependency>-->
 <!--			<groupId>org.ssssssss</groupId>-->
 <!--			<artifactId>magic-api-plugin-task</artifactId>-->
@@ -119,17 +145,6 @@
 <!--			<artifactId>magic-spring-boot-protocol</artifactId>-->
 <!--			<version>${magic-api.version}</version>-->
 <!--		</dependency>-->
-		<!--引入Netty-->
-		<dependency>
-			<artifactId>netty-all</artifactId>
-			<groupId>io.netty</groupId>
-			<version>${netty.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>jakarta.websocket</groupId>
-			<artifactId>jakarta.websocket-api</artifactId>
-			<version>${jakarta-websocket-api.version}</version>
-		</dependency>
 		<!--require redis-->
 <!--		<dependency>-->
 <!--			<groupId>org.ssssssss</groupId>-->
