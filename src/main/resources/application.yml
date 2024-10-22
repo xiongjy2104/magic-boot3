@@ -21,12 +21,16 @@ spring:
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
     time-zone: GMT+8
+
+
+  # 配置Nacos
 #  cloud:
 #    nacos:
 #      discovery:
 #        autoRegister: true #可以让nacos自动注册
 #        username: ${spring.cloud.nacos.config.username}
 #        password: ${spring.cloud.nacos.config.password}
+#      server-addr: 127.0.0.1:8848 #nacos的注册中心地址
 #        server-addr: ${spring.cloud.nacos.config.server-addr}
 #        namespace: ${spring.cloud.nacos.config.namespace}
 #      config:
@@ -40,6 +44,8 @@ spring:
 #          - data-id: another-data-id # 另一个配置ID
 #            group: ANOTHER_GROUP # 另一个配置分组名称
 #        file-extension: yaml # 配置文件格式，默认为properties
+
+
   # 配置Redis
 #  redis:
 #    host: 127.0.0.1
@@ -52,16 +58,15 @@ spring:
 #      max-idle: 8 # 连接池中的最大空闲连接
 #      max-wait: -1 # 连接池最大阻塞等待时间（使用负值表示没有限制）
 #      min-idle: 0 # 连接池中的最小空闲连接
+
+
    # 配置ElasticSearch
 #  elasticsearch:
 #    rest:
 #      uris: http://127.0.0.1:9200
 #      username: elastic
 #      password: 123456789
-#  nacos:
-#    discovery:
-#      autoRegister: true #可以让nacos自动注册
-#      server-addr: 127.0.0.1:8848 #nacos的注册中心地址
+
 
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -113,41 +118,80 @@ spring:
 upload:
   dir: D:/upload/
 
+
+
+# 框架配置
 magic-api:
-  web: /magic/web
+  web: /web
+  prefix: /api # 接口前缀，可以不配置，这里配置成 /api, 方便后期做安全规则
   show-sql: true #配置打印SQL
   sql-column-case: camel
-  prefix: /api # 接口前缀，可以不配置，这里配置成 /api, 方便后期做安全规则
-
+  security:
+    username: admin
+    password: 123456
+  #同一个应用部署了多套的情况下，可能出现接口不同步的问题。因在启动后接口信息全部缓存在内存中，新增也如此，所以对于其他机器是不知道有接口变动的，解决这个问题需要将变更信息同步到其他机器，所以有了这个集群插件。
+  #默认情况下，集群插件依赖于redis插件，引入cluster插件后，将自动引入redis插件
+  ##在不想依赖Redis的情况下，可以自行实现推送通知(MagicNotifyService和MagicAPIService.processNotify)
+  instanceId: .... #实例ID，集群环境下，要保证每台机器不同。默认启动后随机生成uuid，如无特殊情况可不配置。
+  cluster:
+    channel:  ${spring.application.name}:notify:channel #redis 通道,此值为默认值, 需用应用区分
+  # 可设置全局导入模块 # org.ssssssss.magicapi.spring.boot.starter.MagicAPIProperties#autoImportModule
+  # 覆盖默认配置时候别忘了加上db (如果不需要可忽略)
+#  auto-import-module: db,test
+  resource: # 配置存储方式，默认使用的是文件
+#    location: data/magic-api # 接口信息存放外部指定目录
+    location: classpath:magic-api # 接口信息存放在 src/main/resources/magic-api 下，可以打包在Jar中
+#  resource: # 配置存储方式，使用数据库
+#    type: database # 配置存储在数据库中
+#    tableName: magic_api_file # 数据库中的表名
+#    prefix: /magic-api # key前缀
+#    readonly: false # 是否是只读模式
 #  resource:
-#    location: data/magic-api
-  resource: # 配置存储方式，默认使用的是文件，笔者认为数据库还是方便一些
-    #  location: data/magic-api  # 配置存储方式，文件存放目录
-    type: database # 配置存储在数据库中
-    tableName: magic_api_file # 数据库中的表名
-    prefix: /magic-api # key前缀
-    readonly: false # 是否是只读模式
-  backup: #备份相关配置
-    enable: true #是否启用
-    max-history: -1 #备份保留天数，-1为永久保留
-    table-name: magic_backup_record_v2 #使用数据库存储备份时的表名
-  page:
-    page: current
-    size: size
-  cache:
-    enable: true  #开启缓存，默认是不开启的
-    ttl: 86400000 #有效期1Day，默认-1 即永不过期
+#    type: redis# 配置存储在redis中
+#    prefix: magic-api # key前缀
+#    readonly: false # 是否是只读模式
   response-code:
     success: 200 #执行成功的code值
     invalid: 400 #参数验证未通过的code值
     exception: 500 #执行出现异常的code值
+  response: |- # 可选配置。自定义JSON格式，格式为magic-script中的表达式
+    {
+      code: code,
+      message: message,
+      data,
+      timestamp,
+      requestTime,
+      executeTime,
+    }
+  cache:
+    enable: false  #开启缓存，默认是不开启的
+    ttl: 86400000 #有效期1Day，默认-1 即永不过期
+  page:
+    page: current # 页码的请求参数名称 缺省时为page
+    size: size # 页大小的请求参数名称 缺省时为size
+    default-page: 1 # 自定义默认首页 缺省时为1
+    default-size: 10 # 自定义为默认页大小 缺省时为10
+  backup: #备份相关配置
+    enable: true #是否启用
+    max-history: -1 #备份保留天数，-1为永久保留
+    table-name: magic_backup_record_v2 #使用数据库存储备份时的表名
 #  crud: # CRUD相关配置
 #    logic-delete-column: is_del #逻辑删除列
 #    logic-delete-value: 1 #逻辑删除值
-  security:
-    username: admin
-    password: 123456
 
+#  throw-exception: true # 执行出错时，magic-api自己实现全局异常统一处理，随后将抛出的异常处理交给spring处理
+#  editor-config: classpath:./magic-editor-config.js #编辑器配置
+
+  #在引入magic-api-plugin-task插件之后，重启项目，页面左侧就能看到对应的定时任务了，新建之后，填入cron表达式，名字，脚本信息即可。
+#  task:
+#      thread-name-prefix: magic-task- #线程池名字前缀
+#      pool:
+#        size: 8 #线程池大小，默认值为CPU核心数
+#      shutdown:
+#        awaitTermination: false #关闭时是否等待任务执行完毕，默认为false
+#        awaitTerminationPeriod: 10s # 关闭时最多等待任务执行完毕的时间
+
+# 鉴权框架,后面可能替换
 # Sa-Token配置
 sa-token:
   # token名称 (同时也是cookie名称)
@@ -165,12 +209,13 @@ sa-token:
   # 是否输出操作日志
   is-log: false
 
-oss:
-  enable: false
-  endpoint: ""
-  accessKeyId: ""
-  accessKeySecret: ""
-  roleArn: ""
-  roleSessionName: ""
-  bucket: ""
-  bucketDomain: ""
+# 使用阿里云对象存储oss
+#oss:
+#  enable: false
+#  endpoint: ""
+#  accessKeyId: ""
+#  accessKeySecret: ""
+#  roleArn: ""
+#  roleSessionName: ""
+#  bucket: ""
+#  bucketDomain: ""

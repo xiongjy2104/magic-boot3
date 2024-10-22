@@ -1,29 +1,17 @@
 {
   "properties" : { },
-  "id" : "25ba2ad6bbb14aa0992a1ca2c75140f0",
+  "id" : "566a8662385a42d381214b971873e98c",
   "script" : null,
   "groupId" : "7bdcc43555b9419caba2ee722e1aa2d3",
-  "name" : "详情",
+  "name" : "列表",
   "createTime" : null,
-  "updateTime" : 1729564042920,
+  "updateTime" : 1728461106857,
   "lock" : null,
   "createBy" : null,
   "updateBy" : "admin",
-  "path" : "/get",
-  "method" : "GET",
-  "parameters" : [ {
-    "name" : "id",
-    "value" : "1",
-    "description" : null,
-    "required" : true,
-    "dataType" : "Integer",
-    "type" : null,
-    "defaultValue" : null,
-    "validateType" : null,
-    "error" : null,
-    "expression" : null,
-    "children" : null
-  } ],
+  "path" : "/list",
+  "method" : "POST",
+  "parameters" : [ ],
   "options" : [ {
     "name" : "permission",
     "value" : "data:test:view",
@@ -40,12 +28,17 @@
   "requestBody" : "",
   "headers" : [ ],
   "paths" : [ ],
-  "responseBody" : "{\n    \"code\": 200,\n    \"message\": \"success\",\n    \"data\": null,\n    \"timestamp\": 1729563749369,\n    \"executeTime\": 11\n}",
+  "responseBody" : null,
   "description" : null,
   "requestBodyDefinition" : null,
   "responseBodyDefinition" : null
 }
 ================================
-return db.selectOne("""
-    select id,name,sex,head_portrait,remarks from t_data_test where id = #{id}
+return db.page("""
+    select id,name,sex,head_portrait,remarks from t_data_test where 1=1
+    ?{name, and name like concat('%',#{name},'%') }
+    ?{sex, and sex = #{sex} }
+    ?{headPortrait, and head_portrait in(#{headPortrait.split(',')}) }
+    ?{remarks, and remarks <= #{remarks} }
+    and is_del = 0
 """)

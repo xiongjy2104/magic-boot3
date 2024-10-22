@@ -1,32 +1,32 @@
 {
   "properties" : { },
-  "id" : "25ba2ad6bbb14aa0992a1ca2c75140f0",
+  "id" : "62020bd7a49949378e90ce2d14fef8f7",
   "script" : null,
-  "groupId" : "7bdcc43555b9419caba2ee722e1aa2d3",
-  "name" : "详情",
+  "groupId" : "67b2ce258e24491194b74992958c74aa",
+  "name" : "修改是否显示",
   "createTime" : null,
-  "updateTime" : 1729564042920,
-  "lock" : null,
+  "updateTime" : 1651931012437,
+  "lock" : "0",
   "createBy" : null,
-  "updateBy" : "admin",
-  "path" : "/get",
+  "updateBy" : null,
+  "path" : "/change",
   "method" : "GET",
-  "parameters" : [ {
-    "name" : "id",
-    "value" : "1",
-    "description" : null,
-    "required" : true,
-    "dataType" : "Integer",
+  "parameters" : [ ],
+  "options" : [ {
+    "name" : "wrap_request_parameter",
+    "value" : "data",
+    "description" : "包装请求参数到一个变量中",
+    "required" : false,
+    "dataType" : "String",
     "type" : null,
     "defaultValue" : null,
     "validateType" : null,
     "error" : null,
     "expression" : null,
     "children" : null
-  } ],
-  "options" : [ {
+  }, {
     "name" : "permission",
-    "value" : "data:test:view",
+    "value" : "menu:change",
     "description" : "允许拥有该权限的访问",
     "required" : false,
     "dataType" : "String",
@@ -40,12 +40,10 @@
   "requestBody" : "",
   "headers" : [ ],
   "paths" : [ ],
-  "responseBody" : "{\n    \"code\": 200,\n    \"message\": \"success\",\n    \"data\": null,\n    \"timestamp\": 1729563749369,\n    \"executeTime\": 11\n}",
+  "responseBody" : null,
   "description" : null,
   "requestBodyDefinition" : null,
   "responseBodyDefinition" : null
 }
 ================================
-return db.selectOne("""
-    select id,name,sex,head_portrait,remarks from t_data_test where id = #{id}
-""")
+return db.table("sys_menu").primary("id").update(data)

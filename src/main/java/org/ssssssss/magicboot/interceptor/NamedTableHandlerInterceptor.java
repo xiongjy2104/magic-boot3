@@ -11,6 +11,10 @@ import java.util.Date;
 
 import static org.ssssssss.magicboot.model.MagicBootConstants.*;
 
+/*
+* 自定义单表API拦截器
+*/
+
 @Component
 public class NamedTableHandlerInterceptor implements NamedTableInterceptor {
 

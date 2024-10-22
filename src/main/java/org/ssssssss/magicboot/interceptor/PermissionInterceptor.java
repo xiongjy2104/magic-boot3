@@ -2,6 +2,8 @@ package org.ssssssss.magicboot.interceptor;
 
 import cn.dev33.satoken.stp.StpUtil;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -10,6 +12,7 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import org.ssssssss.magicapi.core.context.RequestEntity;
 import org.ssssssss.magicapi.core.interceptor.RequestInterceptor;
 import org.ssssssss.magicapi.core.model.ApiInfo;
+import org.ssssssss.magicapi.core.model.JsonBean;
 import org.ssssssss.magicapi.core.model.Options;
 import org.ssssssss.magicapi.core.service.MagicAPIService;
 import org.ssssssss.magicapi.core.service.MagicResourceService;
@@ -28,6 +31,8 @@ import java.util.Objects;
 @Order(1)
 public class PermissionInterceptor implements RequestInterceptor, HandlerInterceptor {
 
+    private static final Logger logger = LoggerFactory.getLogger(PermissionInterceptor.class);
+
     @Autowired
     MagicAPIService magicAPIService;
 
@@ -38,10 +43,20 @@ public class PermissionInterceptor implements RequestInterceptor, HandlerInterce
     private JdbcTemplate template;
 
     /*
+     * 此类有多个preHandle重载方法，根据需要自行选择
+     * 此类有多个postHandle重载方法，根据需要自行选择
      * 当返回对象时，直接将此对象返回到页面，返回null时，继续执行后续操作
      */
     @Override
     public Object preHandle(ApiInfo info, MagicScriptContext context, MagicHttpServletRequest request, MagicHttpServletResponse response) {
+
+
+        //skip Login so far.
+        if(true){
+            return null;
+        }
+        // remove if required
+
         String requireLogin = Objects.toString(info.getOptionValue(Options.REQUIRE_LOGIN), "");
         if(requireLogin.equals("false")){
             return null;
@@ -58,6 +73,26 @@ public class PermissionInterceptor implements RequestInterceptor, HandlerInterce
         }
         return null;
     }
+//    @Override
+//    public Object preHandle(ApiInfo info, MagicScriptContext context, MagicHttpServletRequest request, MagicHttpServletResponse response) throws Exception {
+//        User user = null; // = XXXUtils.getUser(request);
+//        logger.info("{} 请求接口：{}", user, info.getName());
+//        // 接口选项配置了需要登录
+//        if ("true".equals(info.getOptionValue(Options.REQUIRE_LOGIN))) {
+//            if (user == null) {
+//                return new JsonBean<>(401, "用户未登录");
+//            }
+//        }
+//        String role = info.getOptionValue(Options.ROLE);
+//        if (StringUtils.isNotBlank(role) && user.hasRole(role)) {
+//            return new JsonBean<>(403, "用户权限不足");
+//        }
+//        String permission = info.getOptionValue(Options.PERMISSION);
+//        if (StringUtils.isNotBlank(permission) && user.hasPermission(permission)) {
+//            return new JsonBean<>(403, "用户权限不足");
+//        }
+//        return null;
+//    }
 
     @Override
     public Object postHandle(RequestEntity requestEntity, Object returnValue) throws Exception {
